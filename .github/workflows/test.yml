@@ -1,0 +1,52 @@
+name: Archive verification
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  static-and-browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: quantumcore-wotlk-db
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: quantumcore-wotlk-db/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: npm ci && npm test
+        working-directory: quantumcore-wotlk-db
+      - run: npx playwright install --with-deps chromium
+        working-directory: quantumcore-wotlk-db
+      - run: npm run test:browser
+        working-directory: quantumcore-wotlk-db
+  mariadb-roundtrip:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: disposable-ci-only
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s --health-timeout=5s --health-retries=12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r scripts/requirements.txt
+      - run: python scripts/test_roundtrip.py --host 127.0.0.1 --report /tmp/mariadb-roundtrip.json
+        env:
+          MYSQL_TEST_PASSWORD: disposable-ci-only
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mariadb-roundtrip
+          path: /tmp/mariadb-roundtrip.json

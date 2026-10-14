@@ -1,0 +1,12 @@
+node_modules/
+.venv/
+__pycache__/
+.pytest_cache/
+playwright-report/
+test-results/
+.recovery/
+*.sql
+*.sql.gz
+*.zip
+# This compact, verified logical backup is a requested deliverable.
+!data/quantumcore-mysql55.sql.gz

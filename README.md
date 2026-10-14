@@ -72,7 +72,7 @@ npm run test:browser                # браузер, включая project Pag
 
 Для `test:browser` каталог репозитория должен называться `quantumcore-wotlk-db` (как при обычном клонировании). Можно задать `CHROMIUM_PATH` для установленного Chromium.
 
-CI также импортирует SQL в чистую MariaDB 10.11, проверяет все таблицы и сверяет каждое значение с JSON. Локальный MySQL 5.5 round-trip сохранён в [docs/roundtrip-checks.json](docs/roundtrip-checks.json). [Процедура повторного восстановления](docs/recovery.md).
+Импорт в **MariaDB 10.11 также прошёл проверку в GitHub CI**: все таблицы и каждое значение совпали с JSON ([успешный запуск](https://github.com/alterational/quantumcore-wotlk-db/actions/runs/38526008180)). CI повторяет эту проверку при каждом PR и изменении `main`. Локальный MySQL 5.5 round-trip сохранён в [docs/roundtrip-checks.json](docs/roundtrip-checks.json). [Процедура повторного восстановления](docs/recovery.md).
 
 ## Публичность и read-only
 

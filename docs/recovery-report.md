@@ -63,6 +63,6 @@
 - [Проверки таблиц](recovery-checks.json)
 - [Обновление 23 индексов](index-upgrades.json)
 - [Обратный импорт MySQL 5.5 и хеши значений](roundtrip-checks.json)
-- Проверка MariaDB 10.11 выполняется workflow `Archive verification`; её подробный отчёт сохраняется как artifact `mariadb-roundtrip`.
+- **MariaDB 10.11: полный импорт и сверка всех значений прошли успешно** в [GitHub CI](https://github.com/alterational/quantumcore-wotlk-db/actions/runs/38526008180). Workflow `Archive verification` повторяет тест; подробный отчёт сохраняется как artifact `mariadb-roundtrip`.
 
 [Как повторить](recovery.md) · [Скачать логический дамп](../data/quantumcore-mysql55.sql.gz)
